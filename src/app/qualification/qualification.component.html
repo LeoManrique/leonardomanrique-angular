@@ -60,34 +60,45 @@
             </div>
             <!--==================== EDUCATION ====================-->
             <div class="qualification__content" data-content id="education">
-                <div class="qualification__data  qualification__left">
+                <div *ngFor="let edu of qualifications.education" class="qualification__data qualification__{{ edu.position }}">
+                  <!-- For left-aligned content -->
+                  <ng-container *ngIf="edu.position === 'left'">
                     <div>
-                        <h3 class="qualification__title">Computer Engineering</h3>
-                        <span class="qualification__subtitle">Universidad San Ignacio de Loyola</span>
-                        <div class="qualification__calendar">
-                            <i class="uil uil-calendar-alt"></i>
-                            2015 - 2020
-                        </div>
+                      <h3 class="qualification__title">{{ edu.title }}</h3>
+                      <span class="qualification__subtitle">{{ edu.subtitle }}</span>
+                      <div class="qualification__calendar">
+                        <i class="uil uil-calendar-alt"></i>
+                        {{ edu.date }}
+                      </div>
                     </div>
                     <div>
-                        <span class="qualification__rounder"></span>
-                        <span class="qualification__line"></span>
+                      <span class="qualification__rounder"></span>
+                      <span
+                        class="qualification__line"
+                        *ngIf="edu !== qualifications.education[qualifications.education.length - 1]"
+                      ></span>
                     </div>
-                </div>
-                <div class="qualification__data  qualification__right">
+                  </ng-container>
+        
+                  <!-- For right-aligned content -->
+                  <ng-container *ngIf="edu.position === 'right'">
                     <div></div>
                     <div>
-                        <span class="qualification__rounder"></span>
-                        <!--span class="qualification__line"></span-->
+                      <span class="qualification__rounder"></span>
+                      <span
+                        class="qualification__line"
+                        *ngIf="edu !== qualifications.education[qualifications.education.length - 1]"
+                      ></span>
                     </div>
                     <div>
-                        <h3 class="qualification__title">International Business</h3>
-                        <span class="qualification__subtitle">San Ignacio University</span>
-                        <div class="qualification__calendar">
-                            <i class="uil uil-calendar-alt"></i>
-                            2015 - 2021
-                        </div>
+                      <h3 class="qualification__title">{{ edu.title }}</h3>
+                      <span class="qualification__subtitle">{{ edu.subtitle }}</span>
+                      <div class="qualification__calendar">
+                        <i class="uil uil-calendar-alt"></i>
+                        {{ edu.date }}
+                      </div>
                     </div>
+                  </ng-container>
                 </div>
             </div>
         </div>

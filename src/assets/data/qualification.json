@@ -1,32 +1,32 @@
 {
     "work": [
       {
-        "title": "Backend Developer",
-        "subtitle": "Amaris Consulting",
-        "date": "Sep '21 - Present",
+        "title": "Software Engineer",
+        "subtitle": "Avaloq - Germany",
+        "date": "Sep '22 - Present",
         "position": "left"
       },
       {
         "title": "Backend Engineer",
-        "subtitle": "Proactivity - Italy",
-        "date": "May '21 - Aug '21",
+        "subtitle": "Amaris Consulting - Italy",
+        "date": "Aug '21 - Aug '22",
         "position": "right"
       },
       {
         "title": "Technical Consultant",
-        "subtitle": "Evol - Peru",
-        "date": "Aug '20 - May '21",
+        "subtitle": "EVOL (TSnet S.A.) - Peru",
+        "date": "Aug '20 - Jun '21",
         "position": "left"
       },
       {
         "title": "Oracle Developer",
-        "subtitle": "AEX-IT - Peru",
+        "subtitle": "Qbit S.A. - Peru",
         "date": "May '18 - Jul '20",
         "position": "right"
       },
       {
         "title": "Oracle Consultant",
-        "subtitle": "Solusage - Peru",
+        "subtitle": "NEOARA - Peru",
         "date": "Jul '17 - Feb '18",
         "position": "left"
       }
