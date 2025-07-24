@@ -1,0 +1,81 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test -- --watch=false --browsers=ChromeHeadless
+      
+    - name: Build application
+      run: npm run build -- --configuration=production
+      
+    - name: Deploy to server
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          # Create backup of current deployment
+          if [ -d "/home/lux/docker-containers-config/nginx/sites/leonardomanrique" ]; then
+            sudo cp -r /home/lux/docker-containers-config/nginx/sites/leonardomanrique /home/lux/docker-containers-config/nginx/sites/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
+          fi
+          
+          # Create directory if it doesn't exist
+          sudo mkdir -p /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          
+          # Remove old files
+          sudo rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
+          
+          # Copy new build files
+          sudo cp -r /tmp/dist/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          
+          # Set proper permissions
+          sudo chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          sudo chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          
+          # Restart nginx if needed
+          sudo systemctl reload nginx
+          
+          echo "Deployment completed successfully!"
+          
+    - name: Upload build artifacts
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: dist/leonardomanrique-angular/
+        
+    - name: Copy files to server
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.PORT }}
+        source: "dist/leonardomanrique-angular/*"
+        target: "/tmp/dist/leonardomanrique-angular/"
+        strip_components: 1 
