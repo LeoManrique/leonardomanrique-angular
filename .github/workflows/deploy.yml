@@ -40,24 +40,24 @@ jobs:
         script: |
           # Create backup of current deployment
           if [ -d "/home/lux/docker-containers-config/nginx/sites/leonardomanrique" ]; then
-            sudo cp -r /home/lux/docker-containers-config/nginx/sites/leonardomanrique /home/lux/docker-containers-config/nginx/sites/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
+            cp -r /home/lux/docker-containers-config/nginx/sites/leonardomanrique /home/lux/docker-containers-config/nginx/sites/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
           fi
           
           # Create directory if it doesn't exist
-          sudo mkdir -p /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          mkdir -p /home/lux/docker-containers-config/nginx/sites/leonardomanrique
           
           # Remove old files
-          sudo rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
+          rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
           
           # Copy new build files
-          sudo cp -r /tmp/dist/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
           
           # Set proper permissions
-          sudo chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
-          sudo chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
           
-          # Restart nginx if needed
-          sudo systemctl reload nginx
+          # Restart nginx if needed (using systemctl without sudo)
+          systemctl reload nginx || echo "Nginx reload failed, but deployment completed"
           
           echo "Deployment completed successfully!"
           

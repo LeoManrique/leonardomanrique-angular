@@ -7,6 +7,9 @@ This guide explains how to set up automatic deployment of the Angular applicatio
 1. Your Angular application is hosted on GitHub
 2. You have SSH access to your server
 3. Nginx is configured to serve static files from `/home/lux/docker-containers-config/nginx/sites/leonardomanrique.com`
+4. The deployment user has proper permissions to:
+   - Write to `/home/lux/docker-containers-config/nginx/sites/leonardomanrique`
+   - Execute `systemctl reload nginx` (or nginx reload is handled separately)
 
 ## GitHub Secrets Setup
 
@@ -34,6 +37,27 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub username@your-server
 
 # Display the private key to copy to GitHub Secrets
 cat ~/.ssh/id_ed25519
+```
+
+### Setting up Deployment User Permissions
+
+To avoid sudo password prompts, set up the deployment user with proper permissions:
+
+```bash
+# SSH into your server
+ssh username@your-server
+
+# Add the deployment user to the www-data group
+sudo usermod -a -G www-data $USER
+
+# Give the deployment user ownership of the deployment directory
+sudo chown -R $USER:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+
+# Set proper permissions
+sudo chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+
+# Configure sudoers to allow nginx reload without password (optional)
+echo "$USER ALL=(ALL) NOPASSWD: /bin/systemctl reload nginx" | sudo tee -a /etc/sudoers.d/nginx-reload
 ```
 
 ## Deployment Process
