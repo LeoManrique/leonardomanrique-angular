@@ -41,7 +41,7 @@ cat ~/.ssh/id_ed25519
 
 ### Setting up Deployment User Permissions
 
-To avoid sudo password prompts, set up the deployment user with proper permissions:
+To avoid permission errors, set up the deployment user with proper permissions:
 
 ```bash
 # SSH into your server
@@ -50,14 +50,47 @@ ssh username@your-server
 # Add the deployment user to the www-data group
 sudo usermod -a -G www-data $USER
 
+# Create the deployment directory if it doesn't exist
+sudo mkdir -p /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+
 # Give the deployment user ownership of the deployment directory
 sudo chown -R $USER:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
 
 # Set proper permissions
 sudo chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
 
-# Configure sudoers to allow nginx reload without password (optional)
+# Configure sudoers to allow nginx reload without password
 echo "$USER ALL=(ALL) NOPASSWD: /bin/systemctl reload nginx" | sudo tee -a /etc/sudoers.d/nginx-reload
+
+# Log out and back in for group changes to take effect
+exit
+ssh username@your-server
+```
+
+### Alternative: Use a Dedicated Deployment User
+
+For better security, create a dedicated deployment user:
+
+```bash
+# Create a new user for deployments
+sudo useradd -m -s /bin/bash deploy
+
+# Add to www-data group
+sudo usermod -a -G www-data deploy
+
+# Set up SSH key for the deploy user
+sudo mkdir -p /home/deploy/.ssh
+sudo cp ~/.ssh/authorized_keys /home/deploy/.ssh/
+sudo chown -R deploy:deploy /home/deploy/.ssh
+sudo chmod 700 /home/deploy/.ssh
+sudo chmod 600 /home/deploy/.ssh/authorized_keys
+
+# Give deploy user access to the deployment directory
+sudo chown -R deploy:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+sudo chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+
+# Allow nginx reload
+echo "deploy ALL=(ALL) NOPASSWD: /bin/systemctl reload nginx" | sudo tee -a /etc/sudoers.d/nginx-reload
 ```
 
 ## Deployment Process

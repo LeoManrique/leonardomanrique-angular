@@ -50,16 +50,17 @@ jobs:
           rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
           
           # Copy new build files
-          cp -r /tmp/dist/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique-angular/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
           
-          # Set proper permissions
-          chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique
-          chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          # Set proper permissions (skip if not possible)
+          chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
+          chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not set permissions, but files are deployed"
           
-          # Restart nginx if needed (using systemctl without sudo)
-          systemctl reload nginx || echo "Nginx reload failed, but deployment completed"
+          # Try to reload nginx, but don't fail if it doesn't work
+          systemctl reload nginx || echo "Warning: Nginx reload failed - you may need to reload manually"
           
           echo "Deployment completed successfully!"
+          echo "Note: If you see permission warnings above, please run the server setup commands from DEPLOYMENT.md"
           
     - name: Upload build artifacts
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
