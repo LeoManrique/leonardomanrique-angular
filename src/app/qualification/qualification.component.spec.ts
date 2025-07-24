@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { QualificationComponent } from './qualification.component';
 
@@ -8,6 +10,7 @@ describe('QualificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientModule, RouterTestingModule],
       declarations: [ QualificationComponent ]
     })
     .compileComponents();
