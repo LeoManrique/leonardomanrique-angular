@@ -28,7 +28,25 @@ jobs:
       
     - name: Build application
       run: npm run build --
-      
+    - name: Upload build artifacts
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+        
+    - name: Copy files to server
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.PORT }}
+        source: "dist/*"
+        target: "/tmp/dist/leonardomanrique-react/"
+        strip_components: 1
+
     - name: Deploy to server
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
       uses: appleboy/ssh-action@v1.0.3
@@ -50,7 +68,7 @@ jobs:
           rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
           
           # Copy new build files
-          cp -r /tmp/dist/leonardomanrique-react/leonardomanrique-react/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique-react/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
           
           # Set proper permissions (skip if not possible)
           chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
@@ -61,22 +79,3 @@ jobs:
           
           echo "Deployment completed successfully!"
           echo "Note: If you see permission warnings above, please run the server setup commands from DEPLOYMENT.md"
-          
-    - name: Upload build artifacts
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-files
-        path: dist/
-        
-    - name: Copy files to server
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.PORT }}
-        source: "dist/*"
-        target: "/tmp/dist/leonardomanrique-react/"
-        strip_components: 1 
