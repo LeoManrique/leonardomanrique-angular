@@ -63,20 +63,20 @@ jobs:
           echo "Note: If you see permission warnings above, please run the server setup commands from DEPLOYMENT.md"
           
     - name: Upload build artifacts
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
       uses: actions/upload-artifact@v4
       with:
         name: build-files
-        path: dist/leonardomanrique-angular/
+        path: dist/leonardomanrique-react/
         
     - name: Copy files to server
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
-        source: "dist/leonardomanrique-angular/*"
-        target: "/tmp/dist/leonardomanrique-angular/"
+        source: "dist/leonardomanrique-react/*"
+        target: "/tmp/dist/leonardomanrique-react/"
         strip_components: 1 
