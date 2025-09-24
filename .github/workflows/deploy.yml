@@ -57,7 +57,7 @@ jobs:
           chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not set permissions, but files are deployed"
           
           # Try to reload nginx, but don't fail if it doesn't work
-          systemctl reload nginx || echo "Warning: Nginx reload failed - you may need to reload manually"
+          sudo systemctl reload nginx || echo "Warning: Nginx reload failed - you may need to reload manually"
           
           echo "Deployment completed successfully!"
           echo "Note: If you see permission warnings above, please run the server setup commands from DEPLOYMENT.md"
