@@ -1,5 +1,26 @@
 # LeonardomanriqueAngular
+# Leonardo Manrique - Portfolio
 
+A modern portfolio website built with React, TypeScript, and Vite.
+
+## Features
+
+- **Responsive Design**: Optimized for all device sizes
+- **Dynamic Content**: Data loaded from JSON files
+- **Interactive Components**: Modal services, tabbed qualifications
+- **Mobile Navigation**: Touch-friendly mobile menu
+- **Modern Tech Stack**: React 18, TypeScript, Vite
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.
 
 ## Development server

@@ -1,39 +1,30 @@
 {
-  "name": "leonardomanrique-angular",
+  "name": "leonardomanrique-react",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "start": "vite"
   },
-  "private": true,
   "dependencies": {
-    "@angular/animations": "~13.4.0",
-    "@angular/common": "^13.4.0",
-    "@angular/compiler": "^13.4.0",
-    "@angular/core": "^13.4.0",
-    "@angular/forms": "^13.4.0",
-    "@angular/platform-browser": "^13.4.0",
-    "@angular/platform-browser-dynamic": "^13.4.0",
-    "@angular/router": "^13.4.0",
-    "rxjs": "~6.6.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.3.11",
-    "@angular/cli": "^13.3.11",
-    "@angular/compiler-cli": "^13.4.0",
-    "@types/jasmine": "~3.8.0",
-    "@types/node": "^12.11.1",
-    "jasmine-core": "~3.8.0",
-    "karma": "~6.3.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "^4.6.4"
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/node": "^18.15.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0",
+    "eslint": "^8.38.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4"
   }
 }

@@ -1,0 +1,42 @@
+{
+    "work": [
+      {
+        "title": "Software Engineer",
+        "subtitle": "Avaloq - Germany",
+        "date": "Sep '22 - Present",
+        "position": "left"
+      },
+      {
+        "title": "Backend Engineer",
+        "subtitle": "Amaris Consulting - Italy",
+        "date": "Aug '21 - Aug '22",
+        "position": "right"
+      },
+      {
+        "title": "Technical Consultant",
+        "subtitle": "EVOL (TSnet S.A.) - Peru",
+        "date": "Aug '20 - Jun '21",
+        "position": "left"
+      },
+      {
+        "title": "Oracle Developer",
+        "subtitle": "Qbit S.A. - Peru",
+        "date": "Jul '17 - Jul '20",
+        "position": "right"
+      }
+    ],
+    "education": [
+      {
+        "title": "Computer Engineering",
+        "subtitle": "Universidad San Ignacio de Loyola",
+        "date": "2015 - 2020",
+        "position": "left"
+      },
+      {
+        "title": "International Business",
+        "subtitle": "San Ignacio University",
+        "date": "2015 - 2021",
+        "position": "right"
+      }
+    ]
+  }
