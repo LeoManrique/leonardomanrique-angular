@@ -50,7 +50,7 @@ jobs:
           rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
           
           # Copy new build files
-          cp -r /tmp/dist/leonardomanrique-angular/leonardomanrique-angular/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique-react/leonardomanrique-react/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
           
           # Set proper permissions (skip if not possible)
           chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
