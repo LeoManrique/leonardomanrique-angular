@@ -30,7 +30,7 @@ jobs:
       run: npm run build --
       
     - name: Deploy to server
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
