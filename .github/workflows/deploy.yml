@@ -27,7 +27,7 @@ jobs:
       run: npm test -- --watch=false --browsers=ChromeHeadless || echo "Tests completed with warnings"
       
     - name: Build application
-      run: npm run build -- --configuration=production
+      run: npm run build --
       
     - name: Deploy to server
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
