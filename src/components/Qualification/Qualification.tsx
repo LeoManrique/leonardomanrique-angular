@@ -72,34 +72,32 @@ const Qualification: React.FC = () => {
 
       <div className="qualification__container container">
         <div className="qualification__tabs">
-          <button
+          <div
             className={`qualification__button button--flex ${activeTab === 'work' ? 'qualification__active' : ''}`}
             onClick={() => setActiveTab('work')}
-            type="button"
           >
             <i className="uil uil-briefcase-alt qualification__icon"></i>
             Work experience
-          </button>
-          <button
+          </div>
+          <div
             className={`qualification__button button--flex ${activeTab === 'education' ? 'qualification__active' : ''}`}
             onClick={() => setActiveTab('education')}
-            type="button"
           >
             <i className="uil uil-graduation-cap qualification__icon"></i>
             Education
-          </button>
+          </div>
         </div>
 
         <div className="qualification__sections">
           {/* ==================== WORK EXPERIENCE ==================== */}
-          <div className={`qualification__content ${activeTab === 'work' ? 'qualification__active' : ''}`}>
+          <div className={`qualification__content ${activeTab === 'work' ? 'qualification__active' : ''}`} data-content>
             {qualifications?.work?.map((work, index) =>
               renderQualificationItem(work, index, qualifications.work)
             )}
           </div>
 
           {/* ==================== EDUCATION ==================== */}
-          <div className={`qualification__content ${activeTab === 'education' ? 'qualification__active' : ''}`}>
+          <div className={`qualification__content ${activeTab === 'education' ? 'qualification__active' : ''}`} data-content>
             {qualifications?.education?.map((edu, index) =>
               renderQualificationItem(edu, index, qualifications.education)
             )}
