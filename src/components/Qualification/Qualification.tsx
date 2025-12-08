@@ -52,7 +52,7 @@ const Qualification: React.FC = () => {
   if (loading) {
     return (
       <section className="qualification section" id="qualification">
-        <div className="container">Loading qualifications...</div>
+        <div className="container loading">Loading qualifications</div>
       </section>
     );
   }

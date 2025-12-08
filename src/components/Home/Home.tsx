@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   if (loading) {
     return (
       <section className="home section" id="home">
-        <div className="container">Loading...</div>
+        <div className="container loading">Loading</div>
       </section>
     );
   }
