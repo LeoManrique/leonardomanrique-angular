@@ -56,26 +56,62 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
+          set -e  # Exit on any error
+
+          echo "Starting deployment..."
+
           # Create backup of current deployment
           if [ -d "/home/lux/apps/leonardomanrique" ]; then
+            echo "Creating backup..."
             cp -r /home/lux/apps/leonardomanrique /home/lux/apps/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
           fi
-          
+
           # Create directory if it doesn't exist
+          echo "Ensuring deployment directory exists..."
           mkdir -p /home/lux/apps/leonardomanrique
-          
-          # Remove old files
+
+          # Remove old files (use nullglob to avoid errors when empty)
+          echo "Removing old files..."
+          shopt -s nullglob
           rm -rf /home/lux/apps/leonardomanrique/*
-          
+          shopt -u nullglob
+
           # Copy new build files
+          echo "Copying new build files..."
+          if [ ! -d "/tmp/dist/leonardomanrique-react" ]; then
+            echo "ERROR: Build files not found at /tmp/dist/leonardomanrique-react"
+            exit 1
+          fi
           cp -r /tmp/dist/leonardomanrique-react/* /home/lux/apps/leonardomanrique/
-          
-          # Set proper permissions (skip if not possible)
-          chown -R www-data:www-data /home/lux/apps/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
-          chmod -R 755 /home/lux/apps/leonardomanrique || echo "Warning: Could not set permissions, but files are deployed"
-          
-          # Try to reload nginx, but don't fail if it doesn't work
-          nginx -s reload || echo "Warning: Nginx reload failed - you may need to reload manually"
-          
-          echo "Deployment completed successfully!"
-          echo "Note: If you see permission warnings above, please run the server setup commands from DEPLOYMENT.md"
+
+          # Verify files were copied
+          if [ -z "$(ls -A /home/lux/apps/leonardomanrique)" ]; then
+            echo "ERROR: No files were copied to deployment directory"
+            exit 1
+          fi
+
+          # Set proper permissions
+          echo "Setting permissions..."
+          if ! sudo chown -R www-data:www-data /home/lux/apps/leonardomanrique; then
+            echo "ERROR: Failed to set ownership. Check sudo permissions."
+            exit 1
+          fi
+
+          if ! sudo chmod -R 755 /home/lux/apps/leonardomanrique; then
+            echo "ERROR: Failed to set file permissions."
+            exit 1
+          fi
+
+          # Reload nginx
+          echo "Reloading nginx..."
+          if ! sudo nginx -t; then
+            echo "ERROR: Nginx configuration test failed"
+            exit 1
+          fi
+
+          if ! sudo nginx -s reload; then
+            echo "ERROR: Failed to reload nginx"
+            exit 1
+          fi
+
+          echo "✅ Deployment completed successfully!"
