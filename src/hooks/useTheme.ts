@@ -3,12 +3,28 @@ import { useEffect, useState } from 'react';
 const THEME_KEY = 'selected-theme';
 const DARK_THEME = 'dark-theme';
 
-export const useTheme = () => {
-  const [isDark, setIsDark] = useState<boolean>(() => {
-    // Check localStorage on mount
-    const savedTheme = localStorage.getItem(THEME_KEY);
+const getInitialTheme = (): boolean => {
+  // Check if user has a saved preference
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  if (savedTheme) {
     return savedTheme === 'dark';
-  });
+  }
+
+  // Check system preference
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return true;
+  }
+
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    return false;
+  }
+
+  // Default to dark mode if no preference detected
+  return true;
+};
+
+export const useTheme = () => {
+  const [isDark, setIsDark] = useState<boolean>(getInitialTheme);
 
   useEffect(() => {
     // Apply theme to body
