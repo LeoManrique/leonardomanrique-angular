@@ -57,22 +57,22 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           # Create backup of current deployment
-          if [ -d "/home/lux/docker-containers-config/nginx/sites/leonardomanrique" ]; then
-            cp -r /home/lux/docker-containers-config/nginx/sites/leonardomanrique /home/lux/docker-containers-config/nginx/sites/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
+          if [ -d "/home/lux/apps/leonardomanrique" ]; then
+            cp -r /home/lux/apps/leonardomanrique /home/lux/apps/leonardomanrique.com.backup.$(date +%Y%m%d_%H%M%S)
           fi
           
           # Create directory if it doesn't exist
-          mkdir -p /home/lux/docker-containers-config/nginx/sites/leonardomanrique
+          mkdir -p /home/lux/apps/leonardomanrique
           
           # Remove old files
-          rm -rf /home/lux/docker-containers-config/nginx/sites/leonardomanrique/*
+          rm -rf /home/lux/apps/leonardomanrique/*
           
           # Copy new build files
-          cp -r /tmp/dist/leonardomanrique-react/* /home/lux/docker-containers-config/nginx/sites/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique-react/* /home/lux/apps/leonardomanrique/
           
           # Set proper permissions (skip if not possible)
-          chown -R www-data:www-data /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
-          chmod -R 755 /home/lux/docker-containers-config/nginx/sites/leonardomanrique || echo "Warning: Could not set permissions, but files are deployed"
+          chown -R www-data:www-data /home/lux/apps/leonardomanrique || echo "Warning: Could not change ownership, but files are deployed"
+          chmod -R 755 /home/lux/apps/leonardomanrique || echo "Warning: Could not set permissions, but files are deployed"
           
           # Try to reload nginx, but don't fail if it doesn't work
           nginx -s reload || echo "Warning: Nginx reload failed - you may need to reload manually"
