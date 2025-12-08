@@ -70,11 +70,9 @@ jobs:
           echo "Ensuring deployment directory exists..."
           mkdir -p /home/lux/apps/leonardomanrique
 
-          # Remove old files (use nullglob to avoid errors when empty)
+          # Remove old files
           echo "Removing old files..."
-          shopt -s nullglob
-          rm -rf /home/lux/apps/leonardomanrique/*
-          shopt -u nullglob
+          find /home/lux/apps/leonardomanrique -mindepth 1 -delete 2>/dev/null || true
 
           # Copy new build files
           echo "Copying new build files..."
