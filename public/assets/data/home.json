@@ -1,0 +1,23 @@
+{
+  "title": "Hi, I'm Leonardo",
+  "subtitle": "Backend Developer",
+  "description": "High level experience in software development knowledge, producing quality work.",
+  "socialLinks": [
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/leonardo-manrique-solano/",
+      "icon": "uil-linkedin-alt"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/leomanrique0502/",
+      "icon": "uil-instagram"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/LeoManrique",
+      "icon": "uil-github-alt"
+    }
+  ],
+  "profileImage": "/assets/img/profile.png"
+}

@@ -71,6 +71,13 @@ jobs:
           echo "Ensuring deployment directory exists..."
           mkdir -p /home/lux/apps/leonardomanrique
 
+          # Take ownership of deployment directory for copying
+          echo "Preparing deployment directory..."
+          if ! sudo chown -R lux:lux /home/lux/apps/leonardomanrique; then
+            echo "ERROR: Failed to take ownership of deployment directory"
+            exit 1
+          fi
+
           # Remove old files
           echo "Removing old files..."
           find /home/lux/apps/leonardomanrique -mindepth 1 -delete 2>/dev/null || true
@@ -89,8 +96,8 @@ jobs:
             exit 1
           fi
 
-          # Set proper permissions
-          echo "Setting permissions..."
+          # Set proper permissions for web server
+          echo "Setting web server permissions..."
           if ! sudo chown -R www-data:www-data /home/lux/apps/leonardomanrique; then
             echo "ERROR: Failed to set ownership. Check sudo permissions."
             exit 1

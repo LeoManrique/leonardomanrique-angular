@@ -1,19 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { useJsonData } from '../../hooks/useJsonData'
 import { QualificationData, QualificationItem } from '../../types'
-import { TabUtils } from '../../utils/tabs'
+
+type TabType = 'work' | 'education';
 
 const Qualification: React.FC = () => {
   const { data: qualifications, loading, error } = useJsonData<QualificationData>('/assets/data/qualification.json');
-
-  useEffect(() => {
-    if (!loading && qualifications) {
-      // Initialize tab functionality after data is loaded
-      setTimeout(() => {
-        TabUtils.initializeTabs();
-      }, 100);
-    }
-  }, [loading, qualifications]);
+  const [activeTab, setActiveTab] = useState<TabType>('work');
 
   const renderQualificationItem = (item: QualificationItem, index: number, array: QualificationItem[]) => {
     const isLast = index === array.length - 1;
@@ -79,26 +72,34 @@ const Qualification: React.FC = () => {
 
       <div className="qualification__container container">
         <div className="qualification__tabs">
-          <div className="qualification__button button--flex qualification__active" data-target='#work'>
+          <button
+            className={`qualification__button button--flex ${activeTab === 'work' ? 'qualification__active' : ''}`}
+            onClick={() => setActiveTab('work')}
+            type="button"
+          >
             <i className="uil uil-briefcase-alt qualification__icon"></i>
             Work experience
-          </div>
-          <div className="qualification__button button--flex" data-target='#education'>
+          </button>
+          <button
+            className={`qualification__button button--flex ${activeTab === 'education' ? 'qualification__active' : ''}`}
+            onClick={() => setActiveTab('education')}
+            type="button"
+          >
             <i className="uil uil-graduation-cap qualification__icon"></i>
             Education
-          </div>
+          </button>
         </div>
 
         <div className="qualification__sections">
           {/* ==================== WORK EXPERIENCE ==================== */}
-          <div className="qualification__content qualification__active" data-content id="work">
+          <div className={`qualification__content ${activeTab === 'work' ? 'qualification__active' : ''}`}>
             {qualifications?.work?.map((work, index) =>
               renderQualificationItem(work, index, qualifications.work)
             )}
           </div>
 
           {/* ==================== EDUCATION ==================== */}
-          <div className="qualification__content" data-content id="education">
+          <div className={`qualification__content ${activeTab === 'education' ? 'qualification__active' : ''}`}>
             {qualifications?.education?.map((edu, index) =>
               renderQualificationItem(edu, index, qualifications.education)
             )}

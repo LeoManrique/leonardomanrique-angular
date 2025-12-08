@@ -1,35 +1,8 @@
-import React, { useEffect } from 'react'
-import { NavigationUtils } from '../../utils/navigation'
+import React from 'react'
+import { useNavigation } from '../../hooks/useNavigation'
 
 const Header: React.FC = () => {
-  useEffect(() => {
-    NavigationUtils.initializeNavigation();
-
-    // Handle mobile menu toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const navClose = document.getElementById('nav-close');
-
-    const handleToggleOpen = () => NavigationUtils.toggleMobileMenu(true);
-    const handleToggleClose = () => NavigationUtils.toggleMobileMenu(false);
-
-    if (navToggle) {
-      navToggle.addEventListener('click', handleToggleOpen);
-    }
-
-    if (navClose) {
-      navClose.addEventListener('click', handleToggleClose);
-    }
-
-    // Cleanup event listeners
-    return () => {
-      if (navToggle) {
-        navToggle.removeEventListener('click', handleToggleOpen);
-      }
-      if (navClose) {
-        navClose.removeEventListener('click', handleToggleClose);
-      }
-    };
-  }, []);
+  useNavigation();
 
   return (
     <header className="header" id="header">
