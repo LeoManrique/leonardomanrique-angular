@@ -53,13 +53,13 @@ jspm_packages/
 # Nuxt.js build / generate output
 .nuxt
 
-# Vite build output
+# SvelteKit
+.svelte-kit
+
+# Build output
 dist
 dist-ssr
 *.local
-
-# Rollup build output
-build
 
 # IDE - VSCode
 .vscode/*

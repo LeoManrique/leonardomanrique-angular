@@ -2,41 +2,43 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [ main, master, react-migration ]  # Add your branch name
+    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
-        
+        node-version: '20'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
     - name: Install dependencies
-      run: npm ci
-      
-    - name: Run tests
-      run: npm test -- --watch=false --browsers=ChromeHeadless || echo "Tests completed with warnings"
-      
+      run: pnpm install
+
     - name: Build application
-      run: npm run build --
+      run: pnpm build
+
     - name: Upload build artifacts
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       uses: actions/upload-artifact@v4
       with:
         name: build-files
         path: dist/
-        
+
     - name: Copy files to server
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
@@ -44,11 +46,11 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         source: "dist/*"
-        target: "/tmp/dist/leonardomanrique-react/"
+        target: "/tmp/dist/leonardomanrique/"
         strip_components: 1
 
     - name: Deploy to server
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/react-migration'
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
@@ -56,50 +58,43 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          set -e  # Exit on any error
+          set -e
 
           echo "Starting deployment..."
 
-          # Create backup of current deployment
           if [ -d "/home/lux/apps/leonardomanrique" ]; then
             echo "Creating backup..."
             mkdir -p /home/lux/backups
             cp -r /home/lux/apps/leonardomanrique /home/lux/backups/leonardomanrique.backup.$(date +%Y%m%d_%H%M%S)
           fi
 
-          # Create directory if it doesn't exist
           echo "Ensuring deployment directory exists..."
           mkdir -p /home/lux/apps/leonardomanrique
 
-          # Take ownership of deployment directory for copying
           echo "Preparing deployment directory..."
           if ! sudo chown -R lux:lux /home/lux/apps/leonardomanrique; then
             echo "ERROR: Failed to take ownership of deployment directory"
             exit 1
           fi
 
-          # Remove old files
           echo "Removing old files..."
           find /home/lux/apps/leonardomanrique -mindepth 1 -delete 2>/dev/null || true
 
-          # Copy new build files
           echo "Copying new build files..."
-          if [ ! -d "/tmp/dist/leonardomanrique-react" ]; then
-            echo "ERROR: Build files not found at /tmp/dist/leonardomanrique-react"
+          if [ ! -d "/tmp/dist/leonardomanrique" ]; then
+            echo "ERROR: Build files not found at /tmp/dist/leonardomanrique"
             exit 1
           fi
-          cp -r /tmp/dist/leonardomanrique-react/* /home/lux/apps/leonardomanrique/
+          cp -r /tmp/dist/leonardomanrique/* /home/lux/apps/leonardomanrique/
 
-          # Verify files were copied
           if [ -z "$(ls -A /home/lux/apps/leonardomanrique)" ]; then
             echo "ERROR: No files were copied to deployment directory"
             exit 1
           fi
 
-          # Set proper permissions for web server
           echo "Setting web server permissions..."
           if ! sudo chown -R www-data:www-data /home/lux/apps/leonardomanrique; then
-            echo "ERROR: Failed to set ownership. Check sudo permissions."
+            echo "ERROR: Failed to set ownership."
             exit 1
           fi
 
@@ -108,12 +103,11 @@ jobs:
             exit 1
           fi
 
-          # Reload nginx (optional)
           echo "Reloading nginx..."
           if sudo nginx -t 2>/dev/null && sudo nginx -s reload 2>/dev/null; then
-            echo "✅ Nginx reloaded successfully"
+            echo "Nginx reloaded successfully"
           else
-            echo "ℹ️  Could not reload nginx - you may need to reload it manually"
+            echo "Could not reload nginx - you may need to reload it manually"
           fi
 
-          echo "✅ Deployment completed successfully!"
+          echo "Deployment completed successfully!"

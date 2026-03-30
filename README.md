@@ -1,13 +1,20 @@
 # Leonardo Manrique - Portfolio
 
-A modern portfolio website built with React, TypeScript, and Vite.
+A personal portfolio website built with SvelteKit and TypeScript, featuring file-based routing and static site generation.
 
 ## Tech Stack
 
-- React 18
+- SvelteKit (Svelte 5)
 - TypeScript
 - Vite
+- adapter-static (SSG)
 - Data-driven content (JSON)
+
+## Pages
+
+- `/` — Home, About, Qualification
+- `/portfolio` — Portfolio (coming soon)
+- `/blog` — Blog (coming soon)
 
 ## Development
 
@@ -22,7 +29,7 @@ pnpm dev
 pnpm build
 
 # Type check
-pnpm type-check
+pnpm check
 ```
 
 ## Deployment
