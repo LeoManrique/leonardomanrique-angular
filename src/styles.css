@@ -805,3 +805,315 @@ img {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/*==================== BLOG ====================*/
+.blog__container {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.blog__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.blog__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog__card {
+    background-color: var(--container-color);
+    padding: 1.5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--input-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.blog__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.blog__title {
+    font-size: var(--h3-font-size);
+    color: var(--title-color);
+    margin-bottom: var(--mb-0-5);
+}
+
+.blog__description {
+    font-size: var(--normal-font-size);
+    color: var(--text-color);
+    margin-bottom: var(--mb-0-75);
+}
+
+.blog__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.blog__date {
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+}
+
+.blog__tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.blog__tag {
+    font-size: var(--smaller-font-size);
+    background-color: hsla(var(--hue-color), 69%, 61%, 0.15);
+    color: var(--first-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.blog__empty {
+    text-align: center;
+    color: var(--text-color-light);
+}
+
+/*==================== PORTFOLIO ====================*/
+.portfolio__container {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.portfolio__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 568px) {
+    .portfolio__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.portfolio__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.portfolio__card {
+    background-color: var(--container-color);
+    padding: 1.5rem;
+    border-radius: .5rem;
+    border: 1px solid var(--input-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio__title {
+    font-size: var(--h3-font-size);
+    color: var(--title-color);
+    margin-bottom: var(--mb-0-5);
+}
+
+.portfolio__description {
+    font-size: var(--normal-font-size);
+    color: var(--text-color);
+    margin-bottom: var(--mb-0-75);
+    flex: 1;
+}
+
+.portfolio__tech {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.portfolio__tech-tag {
+    font-size: var(--smaller-font-size);
+    background-color: hsla(var(--hue-color), 69%, 61%, 0.15);
+    color: var(--first-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.portfolio__empty {
+    text-align: center;
+    color: var(--text-color-light);
+}
+
+/*==================== POST / PROJECT DETAIL ====================*/
+.post__container,
+.project__container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 var(--mb-1-5);
+}
+
+.post__back,
+.project__back {
+    display: inline-block;
+    color: var(--first-color);
+    font-size: var(--small-font-size);
+    margin-bottom: var(--mb-1-5);
+    text-decoration: none;
+}
+
+.post__back:hover,
+.project__back:hover {
+    color: var(--first-color-alt);
+}
+
+.post__title,
+.project__title {
+    font-size: var(--h1-font-size);
+    color: var(--title-color);
+    margin-bottom: var(--mb-0-75);
+}
+
+.post__meta,
+.project__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: var(--mb-2);
+}
+
+.post__date {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+}
+
+.post__tags,
+.post__tag {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.post__tag {
+    font-size: var(--smaller-font-size);
+    background-color: hsla(var(--hue-color), 69%, 61%, 0.15);
+    color: var(--first-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.project__tech {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.project__tech-tag {
+    font-size: var(--smaller-font-size);
+    background-color: hsla(var(--hue-color), 69%, 61%, 0.15);
+    color: var(--first-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.project__links {
+    display: flex;
+    gap: 1rem;
+}
+
+.project__ext-link {
+    font-size: var(--small-font-size);
+    color: var(--first-color);
+    text-decoration: none;
+}
+
+.project__ext-link:hover {
+    color: var(--first-color-alt);
+}
+
+/*==================== PROSE (Markdown content) ====================*/
+.prose {
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.prose h2 {
+    font-size: var(--h2-font-size);
+    color: var(--title-color);
+    margin-top: var(--mb-2);
+    margin-bottom: var(--mb-1);
+}
+
+.prose h3 {
+    font-size: var(--h3-font-size);
+    color: var(--title-color);
+    margin-top: var(--mb-1-5);
+    margin-bottom: var(--mb-0-75);
+}
+
+.prose p {
+    margin-bottom: var(--mb-1);
+}
+
+.prose ul,
+.prose ol {
+    margin-bottom: var(--mb-1);
+    padding-left: 1.5rem;
+}
+
+.prose li {
+    margin-bottom: var(--mb-0-5);
+    list-style: disc;
+}
+
+.prose ol li {
+    list-style: decimal;
+}
+
+.prose a {
+    color: var(--first-color);
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: var(--first-color-alt);
+}
+
+.prose code {
+    font-size: var(--small-font-size);
+    background-color: var(--input-color);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+}
+
+.prose pre {
+    background-color: var(--input-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: var(--mb-1-5);
+}
+
+.prose pre code {
+    background: none;
+    padding: 0;
+}
+
+.prose strong {
+    color: var(--title-color);
+}
+
+.prose blockquote {
+    border-left: 3px solid var(--first-color);
+    padding-left: 1rem;
+    margin: var(--mb-1) 0;
+    color: var(--text-color-light);
+    font-style: italic;
+}

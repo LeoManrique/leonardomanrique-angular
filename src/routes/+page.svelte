@@ -33,7 +33,7 @@
 				{ "@type": "CollegeOrUniversity", "name": "San Ignacio University" }
 			],
 			"worksFor": { "@type": "Organization", "name": "Avaloq" },
-			"knowsAbout": ["Backend Development", "Oracle Database", "Java", "Enterprise Systems Integration"]
+			"knowsAbout": ["Backend Development", "Oracle Database", "Java", "Go", "Enterprise Systems Integration"]
 		}
 	})}</script>`}
 </svelte:head>
